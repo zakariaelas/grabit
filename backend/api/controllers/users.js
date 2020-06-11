@@ -1,6 +1,5 @@
 const userService = require('../../services/users');
 const { createToken } = require('../middleware/auth');
-const ErrorHandler = require('../../utils/ErrorHandler');
 
 const createUser = async (req, res, next) => {
   try {
@@ -22,7 +21,7 @@ const createUser = async (req, res, next) => {
       token,
     });
   } catch (err) {
-    next(new ErrorHandler(409, 'User already exists'));
+    next(err);
   }
 };
 

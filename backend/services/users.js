@@ -10,8 +10,8 @@ const createUser = async (data) => {
       password,
     });
     return user;
-  } catch (e) {
-    throw e;
+  } catch (err) {
+    throw err;
   }
 };
 

@@ -1,14 +1,14 @@
 const db = require('../db');
 const config = require('../config');
 const axios = require('axios');
-const ErrorHandler = require('../utils/ErrorHandler');
+const { CredentialsError } = require('../errors');
 
 const authUser = async (email, password) => {
   const user = await db.User.findOne({ email });
   const isMatch = await user.comparePassword(password);
   if (isMatch) return user;
   // throw error if no match
-  throw new ErrorHandler(401, 'Invalid credentials');
+  throw new CredentialsError();
 };
 
 const verifyAccessToken = async (input_token, fbId) => {
@@ -22,7 +22,7 @@ const verifyAccessToken = async (input_token, fbId) => {
 
   const { app_id, is_valid, user_id } = response.data.data;
   if (app_id !== config.facebook.appID || !is_valid || user_id !== fbId)
-    throw new Error('Invalid credentials');
+    throw new CredentialsError();
 
   //get user information using the access token send by the client (react app).
   const profile = await axios({

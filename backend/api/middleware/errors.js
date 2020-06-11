@@ -1,13 +1,14 @@
-const ErrorHandler = require('../../utils/ErrorHandler');
+const { UnexpectedError, CustomError } = require('../../errors/');
 
 const errorHandler = (err, req, res, next) => {
-  if (err instanceof ErrorHandler) {
-    const { statusCode, message } = err;
-    res.status(statusCode).json({ error: { message, status: statusCode } });
+  if (err instanceof CustomError) {
+    const { statusCode } = err;
+    res.status(statusCode).json({ error: err.serializeError() });
   } else {
+    const unexpectedError = new UnexpectedError(err);
     res
-      .status(400)
-      .json({ error: { message: 'Something went wrong !', status: 400 } });
+      .status(unexpectedError.statusCode)
+      .json({ error: unexpectedError.serializeError() });
   }
 };
 

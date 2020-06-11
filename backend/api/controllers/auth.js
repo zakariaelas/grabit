@@ -1,7 +1,6 @@
 const { createToken } = require('../middleware/auth');
 const authService = require('../../services/auth');
 const userService = require('../../services/users');
-const ErrorHandler = require('../../utils/ErrorHandler');
 
 const login = async function (req, res, next) {
   try {
@@ -27,8 +26,8 @@ const login = async function (req, res, next) {
       displayName,
       token,
     });
-  } catch (e) {
-    return next(new ErrorHandler(401, 'Invalid credentials'));
+  } catch (err) {
+    return next(err);
   }
 };
 
@@ -66,7 +65,7 @@ const facebookLogin = async (req, res, next) => {
       token,
     });
   } catch (err) {
-    return next(new ErrorHandler(401, 'Invalid credentials'));
+    return next(err);
   }
 };
 
