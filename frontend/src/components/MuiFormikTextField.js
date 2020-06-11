@@ -16,7 +16,8 @@ const MuiFormikTextField = ({ name, ...props }) => {
   return (
     <>
       <TextField
-        error={hasError}
+        color="secondary"
+        error={!!hasError}
         helperText={errorMsg}
         {...field}
         {...props}
