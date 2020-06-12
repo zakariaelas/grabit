@@ -14,7 +14,7 @@ const orderSchema = mongoose.Schema(
     },
     from: {
       type: String,
-      reqiured: true,
+      required: true,
     },
     destination: {
       type: String,
