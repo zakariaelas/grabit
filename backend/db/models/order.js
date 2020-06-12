@@ -1,7 +1,27 @@
 const mongoose = require('mongoose');
 const ORDER_STATUS = require('../../enums/orderStatus');
+const ORDER_ITEM_STATUS = require('../../enums/orderItem');
 
-const orderSchema = mongoose.Schema(
+const orderItemSchema = new mongoose.Schema(
+  {
+    text: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: ORDER_ITEM_STATUS.Pending,
+      enum: [
+        ORDER_ITEM_STATUS.Pending,
+        ORDER_ITEM_STATUS.Picked,
+        ORDER_ITEM_STATUS.Unavailable,
+      ],
+    },
+  },
+  { timestamps: true },
+);
+
+const orderSchema = new mongoose.Schema(
   {
     driver: {
       type: mongoose.Types.ObjectId,
@@ -22,12 +42,13 @@ const orderSchema = mongoose.Schema(
     },
     description: {
       type: String,
+      default: '',
     },
     date: {
       type: Date,
       required: true,
     },
-    minBugdet: {
+    minBudget: {
       type: Number,
       default: 0,
       min: [0, 'Minimum budget cannot be negative'],
@@ -44,13 +65,7 @@ const orderSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    items: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'OrderItem',
-        required: true,
-      },
-    ],
+    items: [orderItemSchema],
     status: {
       type: String,
       default: ORDER_STATUS.Pending,
@@ -64,12 +79,11 @@ const orderSchema = mongoose.Schema(
     },
     deliveredAt: {
       type: Date,
-      default: Date.now(),
     },
   },
   { timestamps: true },
 );
 
-const Order = new mongoose.Model('Order', orderSchema);
+const Order = new mongoose.model('Order', orderSchema);
 
 module.exports = Order;

@@ -3,10 +3,11 @@ const jwt = require('jsonwebtoken');
 const { ExtractJwt, Strategy: JwtStrategy } = require('passport-jwt');
 const config = require('../../config/');
 const { CustomError } = require('../../errors/');
+const db = require('../../db');
 
 const jwtStrategy = new JwtStrategy(
   {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.jwt.secret,
   },
   (jwt_payload, done) => {

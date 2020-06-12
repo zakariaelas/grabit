@@ -27,6 +27,5 @@ mongoose.Promise = Promise;
 module.exports = {
   User: require('./models/user'),
   Order: require('./models/order'),
-  OrderItem: require('./models/orderItem'),
   connection: mongoose.connection,
 };
