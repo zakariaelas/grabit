@@ -1,6 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   fbLogin: {
@@ -15,16 +15,38 @@ const useStyles = makeStyles((theme) => ({
       borderColor: '#324b80',
     },
   },
+  wrapped: {
+    position: 'relative',
+    display: 'inline-block',
+  },
+  circularProgress: {
+    position: 'absolute',
+    color: '#3b5998',
+    left: '50%',
+    top: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
-const FacebookAuth = (props) => {
+const FacebookAuth = ({ isLoading, ...props }) => {
   const classes = useStyles();
+  const classNameProps = props.className || '';
   return (
-    <FacebookLogin
-      appId="1180182728983653"
-      cssClass={`MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-fullWidth ${classes.fbLogin}`}
-      {...props}
-    />
+    <div className={`${classes.wrapped} ${classNameProps}`}>
+      <FacebookLogin
+        isDisabled={isLoading}
+        appId="1180182728983653"
+        cssClass={`MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-fullWidth ${classes.fbLogin}`}
+        {...props}
+      />
+      {isLoading && (
+        <CircularProgress
+          size={24}
+          className={classes.circularProgress}
+        />
+      )}
+    </div>
   );
 };
 

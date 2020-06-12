@@ -35,10 +35,6 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     backgroundColor: '#222A30',
   },
-  avatar: {
-    height: theme.spacing(4),
-    width: theme.spacing(4),
-  },
   bold: {
     fontWeight: 600,
   },
@@ -67,14 +63,13 @@ const Navbar = () => {
         <Avatar
           alt={currentUser.displayName}
           src={currentUser.imageUrl}
-          className={classes.avatar}
           onClick={handleClick}
         />
       ) : (
-        <Avatar onClick={handleClick} className={classes.avatar}>
+        <Avatar onClick={handleClick}>
           {currentUser.displayName
             .split(' ')
-            .slice(2)
+            .slice(0, 2)
             .map((word) => word.charAt(0).toUpperCase())
             .join('')}
         </Avatar>

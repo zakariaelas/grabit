@@ -55,3 +55,4 @@ export const auth = (state = initialState, action) => {
 
 export const authSelector = (state) => state.auth;
 export const currentUserSelector = (state) => state.auth.currentUser;
+export const isLoadingAuthSelector = (state) => state.auth.isLoading;

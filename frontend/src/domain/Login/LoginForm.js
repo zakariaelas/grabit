@@ -3,8 +3,9 @@ import { Form, withFormik } from 'formik';
 import MuiFormikTextField from '../../components/MuiFormikTextField';
 import * as yup from 'yup';
 import { Button, Box } from '@material-ui/core';
+import CircularProgressButton from '../../components/CircularProgressButton';
 
-const LoginForm = (props) => {
+const LoginForm = ({ isLoading }) => {
   return (
     <Form>
       <div>
@@ -25,7 +26,7 @@ const LoginForm = (props) => {
         />
       </div>
       <Box mt={2}>
-        <Button
+        <CircularProgressButton
           style={{
             textTransform: 'initial',
             fontWeight: 600,
@@ -34,9 +35,10 @@ const LoginForm = (props) => {
           type="submit"
           variant="contained"
           color="primary"
+          isLoading={isLoading}
         >
           Continue
-        </Button>
+        </CircularProgressButton>
       </Box>
     </Form>
   );

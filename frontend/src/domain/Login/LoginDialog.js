@@ -10,11 +10,12 @@ import {
 import LoginForm from './LoginForm';
 import { ReactComponent as LogoShape } from '../../assets/shape.svg';
 import { ArrowBack } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login, facebookLogin } from './LoginActions';
 import { useHistory } from 'react-router-dom';
 import ResponsiveDialog from '../../components/ResponsiveDialog';
 import FacebookAuth from '../../components/FacebookAuth';
+import { isLoadingAuthSelector } from '../../app/authReducer';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginDialog = ({ open, handleClose }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const isLoading = useSelector(isLoadingAuthSelector);
   const classes = useStyles();
   return (
     <ResponsiveDialog open={open} onClose={handleClose}>
@@ -63,6 +65,7 @@ const LoginDialog = ({ open, handleClose }) => {
             email: '',
             password: '',
           }}
+          isLoading={isLoading}
           onSubmit={(values) => {
             console.log(values);
             dispatch(login(values, history));
@@ -76,6 +79,7 @@ const LoginDialog = ({ open, handleClose }) => {
         <Box mt={2}>
           <FacebookAuth
             appId="1180182728983653"
+            isLoading={isLoading}
             textButton="Continue with Facebook"
             callback={(data) => {
               const req = {
