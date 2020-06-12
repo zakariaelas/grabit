@@ -2,7 +2,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { ExtractJwt, Strategy: JwtStrategy } = require('passport-jwt');
 const config = require('../../config/');
-const { CustomError } = require('../../errors/');
+const { CustomError, ForbiddenError } = require('../../errors/');
 const db = require('../../db');
 
 const jwtStrategy = new JwtStrategy(
@@ -36,7 +36,7 @@ const requireAuthWithPredicate = (pred) => (req, res, next) => {
       if (predCheck) {
         req.user = user;
         return next();
-      } else return next(new CustomError(403, pred.message));
+      } else return next(new ForbiddenError(403, pred.message));
     } catch (e) {
       next(e);
     }

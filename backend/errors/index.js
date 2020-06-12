@@ -3,4 +3,5 @@ module.exports = {
   CredentialsError: require('./CredentialsError'),
   UnexpectedError: require('./UnexpectedError'),
   RequestValidationError: require('./RequestValidationError'),
+  ForbiddenError: require('./ForbiddenError'),
 };

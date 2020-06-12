@@ -11,6 +11,17 @@ const createOrder = async (req, res, next) => {
   }
 };
 
+const getOrder = async (req, res, next) => {
+  try {
+    const { oid } = req.params;
+    const order = await orderService.getOrder(oid);
+    return res.json({ order });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createOrder,
+  getOrder,
 };

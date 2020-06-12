@@ -5,6 +5,12 @@ const createOrder = async (data) => {
   return order;
 };
 
+const getOrder = async (id) => {
+  const order = await db.Order.findOne({ _id: id });
+  return order;
+};
+
 module.exports = {
   createOrder,
+  getOrder,
 };
