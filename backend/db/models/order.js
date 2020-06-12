@@ -10,6 +10,7 @@ const orderSchema = mongoose.Schema(
     customer: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
+      required: true,
     },
     from: {
       type: String,
