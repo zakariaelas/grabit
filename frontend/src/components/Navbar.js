@@ -4,7 +4,6 @@ import {
   Toolbar,
   makeStyles,
   Container,
-  IconButton,
   Box,
   Avatar,
   Typography,
@@ -14,7 +13,6 @@ import {
 } from '@material-ui/core';
 import { ReactComponent as Logo } from '../assets/logo-red-white-horiz.svg';
 import { Link } from 'react-router-dom';
-import { ExitToApp } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import { currentUserSelector } from '../app/authReducer';
 
@@ -108,9 +106,14 @@ const Navbar = () => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                transformOrigin={{
+                getContentAnchorEl={null}
+                anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'left',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
                 }}
               >
                 <MenuItem
