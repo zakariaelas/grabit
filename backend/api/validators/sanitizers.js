@@ -8,6 +8,13 @@ const sanitizeReqBody = (req, res, next) => {
   next();
 };
 
+const capitalizeString = (value) =>
+  value
+    .split(' ')
+    .map((w) => `${w.charAt(0).toUpperCase()}${w.slice(1)}`)
+    .join(' ');
+
 module.exports = {
   sanitizeReqBody,
+  capitalizeString,
 };

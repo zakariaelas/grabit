@@ -1,11 +1,13 @@
 const validate = require('./validate');
 const { body } = require('express-validator');
+const { capitalizeString } = require('./sanitizers');
 
 const validateCustomerSignUp = validate([
   body('displayName')
     .exists()
     .isString()
     .trim()
+    .customSanitizer(capitalizeString)
     .withMessage('Invalid full name'),
   body('email')
     .exists()
