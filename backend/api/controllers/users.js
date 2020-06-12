@@ -25,6 +25,17 @@ const createUser = async (req, res, next) => {
   }
 };
 
+const getUserOrders = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const orders = await userService.getUserOrders(id);
+    return res.json({ orders });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createUser,
+  getUserOrders,
 };

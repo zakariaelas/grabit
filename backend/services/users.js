@@ -27,7 +27,15 @@ const findFbIdOrCreateUser = async (data) => {
   }
 };
 
+const getUserOrders = async (id) => {
+  const user = await db.User.findOne({ _id: id })
+    .populate('orders')
+    .select('orders');
+  return user.orders;
+};
+
 module.exports = {
   createUser,
   findFbIdOrCreateUser,
+  getUserOrders,
 };

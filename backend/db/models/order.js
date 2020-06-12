@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const ORDER_STATUS = require('../../enums/orderStatus');
 const ORDER_ITEM_STATUS = require('../../enums/orderItem');
+const User = require('./user');
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -83,6 +84,19 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+orderSchema.post('save', async function (doc, next) {
+  try {
+    await User.updateMany(
+      { $or: [{ _id: doc.customer }, { _id: doc.driver }] },
+      { $push: { orders: doc } },
+      { new: true },
+    );
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 const Order = new mongoose.model('Order', orderSchema);
 
