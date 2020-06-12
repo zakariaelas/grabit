@@ -9,6 +9,7 @@ import BgImage from '../../assets/bg.png';
 import Nav from './Nav';
 import RegistrationPanel from './RegistrationPanel';
 import LandingBody from './LandingBody';
+import Footer from '../../components/Footer';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -78,6 +79,11 @@ const LandingPage = () => {
       </header>
       <Box className={classes.bodyBox} pt={12} mx="auto">
         <LandingBody />
+      </Box>
+      <Box mt={8} mb={4}>
+        <Container maxWidth="md">
+          <Footer px={4} />
+        </Container>
       </Box>
     </>
   );
