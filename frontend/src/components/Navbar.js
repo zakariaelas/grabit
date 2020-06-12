@@ -10,11 +10,14 @@ import {
   Hidden,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from '@material-ui/core';
 import { ReactComponent as Logo } from '../assets/logo-red-white-horiz.svg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { currentUserSelector } from '../app/authReducer';
+import { ExitToApp, Person } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
   },
   bold: {
     fontWeight: 600,
+  },
+  icon: {
+    minWidth: 32,
+    color: theme.palette.secondary.dark,
   },
 }));
 
@@ -121,14 +128,20 @@ const Navbar = () => {
                   to="/profile"
                   onClick={handleClose}
                 >
-                  Profile
+                  <ListItemIcon className={classes.icon}>
+                    <Person fontSize="small" color="inherit" />
+                  </ListItemIcon>
+                  <ListItemText>Profile</ListItemText>
                 </MenuItem>
                 <MenuItem
                   component={Link}
                   to="/logout"
                   onClick={handleClose}
                 >
-                  Logout
+                  <ListItemIcon className={classes.icon}>
+                    <ExitToApp fontSize="small" color="inherit" />
+                  </ListItemIcon>
+                  <ListItemText>Logout</ListItemText>
                 </MenuItem>
               </Menu>
             </Box>
