@@ -2,31 +2,14 @@ const validate = require('./validate');
 const { body, oneOf, validationResult } = require('express-validator');
 const ROLES = require('../../enums/roles');
 const { RequestValidationError } = require('../../errors/index');
-
-const validateCustomerSignUp = validate([
-  body('displayName')
-    .exists()
-    .isString()
-    .trim()
-    .withMessage('Invalid full name'),
-  body('email')
-    .exists()
-    .withMessage('Email is required')
-    .isEmail()
-    .withMessage('Email must be a valid email')
-    .trim(),
-  body('password')
-    .exists()
-    .isString()
-    .isLength({ min: 8, max: 20 })
-    .withMessage('Password must contain at least 8 characters'),
-]);
+const { capitalizeString } = require('./sanitizers');
 
 const validateCustomerSignUpChain = [
   body('displayName')
     .exists()
     .isString()
     .trim()
+    .customSanitizer(capitalizeString)
     .withMessage('Invalid full name'),
   body('email')
     .exists()
@@ -51,6 +34,7 @@ const validateDriverSignUpChain = [
     .exists()
     .isString()
     .trim()
+    .customSanitizer(capitalizeString)
     .withMessage('Invalid full name'),
   body('email')
     .exists()
@@ -80,6 +64,26 @@ const validateSignUp = oneOf([
   validateCustomerSignUpChain,
 ]);
 
+const validateEditProfile = validate([
+  body('displayName')
+    .exists()
+    .isString()
+    .trim()
+    .customSanitizer(capitalizeString)
+    .withMessage('Invalid full name'),
+  body('email')
+    .exists()
+    .withMessage('Email is required')
+    .isEmail()
+    .withMessage('Email must be a valid email')
+    .trim(),
+  body('phoneNumber')
+    .exists()
+    .isString()
+    .matches(/^(\+?212|0)[67]\d{8}$/)
+    .withMessage('Invalid phoneNumber'),
+]);
+
 const errorFormatter = ({ msg }) => ({ message: msg });
 
 const throwIfNotValid = (req, res, next) => {
@@ -99,4 +103,5 @@ module.exports = {
   validateCustomerSignUp,
   validateSignUp,
   throwIfNotValid,
+  validateEditProfile,
 };

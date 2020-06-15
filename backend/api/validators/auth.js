@@ -1,5 +1,5 @@
 const validate = require('./validate');
-const { body, matchedData } = require('express-validator');
+const { body } = require('express-validator');
 const ROLES = require('../../enums/roles');
 
 const validateOAuth = validate([
