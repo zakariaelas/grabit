@@ -4,14 +4,16 @@ const { createToken } = require('../middleware/auth');
 const createUser = async (req, res, next) => {
   try {
     const userDTO = req.body;
+    console.log(userDTO);
     const {
       _id: id,
       displayName,
       role,
       imageUrl,
       email,
+      phoneNumber,
     } = await userService.createUser(userDTO);
-    const token = createToken({ id, role, displayName, imageUrl });
+    const token = createToken({ id, role, displayName, imageUrl, phoneNumber });
     return res.json({
       id,
       role,
@@ -19,6 +21,7 @@ const createUser = async (req, res, next) => {
       imageUrl,
       email,
       token,
+      phoneNumber,
     });
   } catch (err) {
     next(err);

@@ -45,7 +45,7 @@ const facebookLogin = async (req, res, next) => {
       email,
       role,
     } = await userService.findFbIdOrCreateUser({
-      userRole,
+      role: userRole,
       ...fbData,
     });
 

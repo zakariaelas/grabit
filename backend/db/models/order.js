@@ -70,13 +70,7 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       default: ORDER_STATUS.Pending,
-      enum: [
-        ORDER_STATUS.Pending,
-        ORDER_STATUS.Accepted,
-        ORDER_STATUS.Picked,
-        ORDER_STATUS.Delivered,
-        ORDER_STATUS.Rejected,
-      ],
+      enum: [ORDER_STATUS.Pending, ORDER_STATUS.Picked, ORDER_STATUS.Delivered],
     },
     deliveredAt: {
       type: Date,
