@@ -89,4 +89,6 @@ const LandingPage = () => {
   );
 };
 
+LandingPage.whyDidYouRender = true;
+
 export default LandingPage;

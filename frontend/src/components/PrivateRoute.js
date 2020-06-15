@@ -32,4 +32,6 @@ const PrivateRoute = ({ component: Component, role, ...props }) => {
   );
 };
 
+PrivateRoute.whyDidYouRender = true;
+
 export default PrivateRoute;

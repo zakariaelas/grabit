@@ -17,6 +17,7 @@ import SignupCustomer from '../Signup/SignupCustomer/SignupCustomer';
 import { useSelector } from 'react-redux';
 import { currentUserSelector } from '../../app/authReducer';
 import { Link } from 'react-router-dom';
+import SignupDriver from '../Signup/SignupDriver/SignupDriver';
 
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -55,15 +56,26 @@ const RegistrationPanel = (props) => {
   const classes = useStyles();
   const { isAuthenticated } = useSelector(currentUserSelector);
   const [open, setOpen] = useState(false);
+  const [openDriver, setOpenDriver] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleCloseDriver = () => {
+    setOpenDriver(false);
+  };
+  const handleOpenDriver = () => {
+    setOpenDriver(true);
+  };
   return (
     <>
       <SignupCustomer open={open} handleClose={handleClose} />
+      <SignupDriver
+        open={openDriver}
+        handleClose={handleCloseDriver}
+      />
       <Hidden smDown>
         <Box p={4} className={classes.registration}>
           {isAuthenticated ? (
@@ -96,6 +108,7 @@ const RegistrationPanel = (props) => {
                   </Typography>
                   <Box ml={4} display="flex">
                     <KeyboardArrowRight
+                      onClick={handleOpenDriver}
                       className={classes.icon}
                       fontSize="large"
                     />
@@ -138,6 +151,7 @@ const RegistrationPanel = (props) => {
             <>
               <Box fontStyle="initial" mr={2}>
                 <Button
+                  onClick={handleOpenDriver}
                   className={classes.btn}
                   disableElevation
                   variant="outlined"

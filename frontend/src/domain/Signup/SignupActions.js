@@ -1,10 +1,10 @@
-import apiprefix from '../../../utils/apiprefix';
-import { apiCall } from '../../../utils/api';
+import apiprefix from '../../utils/apiprefix';
+import { apiCall } from '../../utils/api';
 import {
   AUTH_USER_REQUEST,
   AUTH_USER_SUCCESS,
   AUTH_USER_FAILURE,
-} from '../../../app/actionTypes';
+} from '../../app/actionTypes';
 
 export function register(user, history) {
   return async function (dispatch) {

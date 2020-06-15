@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 32,
     color: theme.palette.secondary.dark,
   },
+  avatar: {
+    cursor: 'pointer',
+  },
 }));
 
 const Navbar = () => {
@@ -61,12 +64,13 @@ const Navbar = () => {
     () =>
       currentUser.imageUrl ? (
         <Avatar
+          className={classes.avatar}
           alt={currentUser.displayName}
           src={currentUser.imageUrl}
           onClick={handleClick}
         />
       ) : (
-        <Avatar onClick={handleClick}>
+        <Avatar className={classes.avatar} onClick={handleClick}>
           {currentUser.displayName
             .split(' ')
             .slice(0, 2)

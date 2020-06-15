@@ -12,10 +12,12 @@ import { ReactComponent as LogoShape } from '../../../assets/shape.svg';
 import { ArrowBack } from '@material-ui/icons';
 import SignupCustomerForm from './SignupCustomerForm';
 import ResponsiveDialog from '../../../components/ResponsiveDialog';
-import { register } from './SignupActions';
+import { register } from '../SignupActions';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { facebookLogin } from '../../Login/LoginActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { facebookAuth } from '../../Login/LoginActions';
+import FacebookAuth from '../../../components/FacebookAuth';
+import { isLoadingAuthSelector } from '../../../app/authReducer';
 
 const useStyles = makeStyles((theme) => ({
   fbLogin: {
@@ -43,6 +45,7 @@ const SignupCustomer = ({ open, handleClose }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const isLoading = useSelector(isLoadingAuthSelector);
   return (
     <ResponsiveDialog open={open} onClose={handleClose}>
       <Hidden smUp>
@@ -83,6 +86,7 @@ const SignupCustomer = ({ open, handleClose }) => {
               displayName: values.displayName,
               email: values.email,
               password: values.password,
+              role: 'customer',
             };
             dispatch(register(req, history));
           }}
@@ -93,9 +97,9 @@ const SignupCustomer = ({ open, handleClose }) => {
           </Typography>
         </Box>
         <Box mt={2}>
-          <FacebookLogin
+          <FacebookAuth
             appId="1180182728983653"
-            cssClass={`MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-fullWidth ${classes.fbLogin}`}
+            isLoading={isLoading}
             textButton="Continue with Facebook"
             callback={(data) => {
               const req = {
@@ -103,7 +107,7 @@ const SignupCustomer = ({ open, handleClose }) => {
                 fbId: data.id,
                 role: 'customer',
               };
-              dispatch(facebookLogin(req, history));
+              dispatch(facebookAuth(req, history));
             }}
           />
         </Box>

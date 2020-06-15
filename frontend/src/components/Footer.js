@@ -40,4 +40,9 @@ const Footer = (props) => {
   );
 };
 
+Footer.whyDidYouRender = {
+  logOnDifferentValues: true,
+  customName: 'Footer',
+};
+
 export default Footer;

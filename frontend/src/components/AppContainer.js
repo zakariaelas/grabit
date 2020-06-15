@@ -11,11 +11,13 @@ const AppContainer = ({ children }) => {
       <Box mt={8}>
         <Container maxWidth="md">
           <Switch>{children}</Switch>
-          <Footer position="absolute" bottom={0} mb={4} />
+          <Footer position="absolute" mb={4} mt={4} />
         </Container>
       </Box>
     </>
   );
 };
+
+AppContainer.whyDidYouRender = true;
 
 export default AppContainer;

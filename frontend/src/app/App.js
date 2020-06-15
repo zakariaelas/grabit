@@ -18,6 +18,7 @@ import Home from '../domain/Home/Home';
 import PrivateRoute from '../components/PrivateRoute';
 import NotFound from '../components/NotFound';
 import AppContainer from '../components/AppContainer';
+import Request from '../domain/Request/Request';
 
 let theme = createMuiTheme({
   palette: {
@@ -68,6 +69,11 @@ function App() {
               />
               <AppContainer>
                 <PrivateRoute exact path="/home" component={Home} />
+                <PrivateRoute
+                  exact
+                  path="/new-order"
+                  component={Request}
+                />
                 <Route component={NotFound} />
               </AppContainer>
             </Switch>
@@ -77,5 +83,7 @@ function App() {
     </MuiThemeProvider>
   );
 }
+
+App.whyDidYouRender = true;
 
 export default App;

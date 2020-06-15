@@ -40,7 +40,7 @@ export function login(credentials, history) {
   };
 }
 
-export function facebookLogin(credentials, history) {
+export function facebookAuth(credentials, history) {
   return async function (dispatch) {
     dispatch({ type: AUTH_USER_REQUEST });
     try {
@@ -65,36 +65,6 @@ export function facebookLogin(credentials, history) {
           };
       dispatch({
         type: AUTH_USER_FAILURE,
-        payload: error,
-      });
-    }
-  };
-}
-
-export function registerUser(user) {
-  return async function (dispatch) {
-    dispatch({ type: REGISTER_USER_REQUEST });
-    try {
-      const request = await apiCall({
-        method: 'POST',
-        url: `${apiprefix}/users`,
-        data: user,
-      });
-      localStorage.token = request.data.token;
-      dispatch({
-        type: REGISTER_USER_SUCCESS,
-        payload: request.data,
-      });
-    } catch (err) {
-      const error = err.response
-        ? err.response.data
-        : {
-            error: {
-              message: 'An error occurred, please try again later !',
-            },
-          };
-      dispatch({
-        type: REGISTER_USER_FAILURE,
         payload: error,
       });
     }

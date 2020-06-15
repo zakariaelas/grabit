@@ -7,17 +7,31 @@ import {
   Hidden,
   IconButton,
 } from '@material-ui/core';
-import LoginForm from './LoginForm';
-import { ReactComponent as LogoShape } from '../../assets/shape.svg';
+import FacebookLogin from 'react-facebook-login';
+import { ReactComponent as LogoShape } from '../../../assets/shape.svg';
 import { ArrowBack } from '@material-ui/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, facebookAuth } from './LoginActions';
+import SignupDriverForm from './SignupDriverForm';
+import ResponsiveDialog from '../../../components/ResponsiveDialog';
 import { useHistory } from 'react-router-dom';
-import ResponsiveDialog from '../../components/ResponsiveDialog';
-import FacebookAuth from '../../components/FacebookAuth';
-import { isLoadingAuthSelector } from '../../app/authReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { facebookAuth } from '../../Login/LoginActions';
+import { register } from '../SignupActions';
+import { isLoadingAuthSelector } from '../../../app/authReducer';
+import FacebookAuth from '../../../components/FacebookAuth';
 
 const useStyles = makeStyles((theme) => ({
+  fbLogin: {
+    background: '#3b5998',
+    color: '#fff',
+    borderColor: '#3b5998',
+    textTransform: 'initial',
+    fontWeight: 600,
+    '&:hover': {
+      color: '#fff',
+      background: '#324b80',
+      borderColor: '#324b80',
+    },
+  },
   logo: {
     height: '50px',
     marginBottom: theme.spacing(2),
@@ -27,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginDialog = ({ open, handleClose }) => {
+const SignupDriver = ({ open, handleClose }) => {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingAuthSelector);
-  const classes = useStyles();
   return (
     <ResponsiveDialog open={open} onClose={handleClose}>
       <Hidden smUp>
@@ -57,18 +71,26 @@ const LoginDialog = ({ open, handleClose }) => {
             className={classes.title}
             variant="h4"
           >
-            Welcome back !
+            Welcome to Grabit
           </Typography>
         </Box>
-        <LoginForm
+        <SignupDriverForm
           initialValues={{
+            displayName: '',
             email: '',
+            phoneNumber: '',
             password: '',
+            confirmationpassword: '',
           }}
-          isLoading={isLoading}
           onSubmit={(values) => {
-            console.log(values);
-            dispatch(login(values, history));
+            const req = {
+              displayName: values.displayName,
+              email: values.email,
+              phoneNumber: values.phoneNumber,
+              password: values.password,
+              role: 'driver',
+            };
+            dispatch(register(req, history));
           }}
         />
         <Box mt={2}>
@@ -85,7 +107,7 @@ const LoginDialog = ({ open, handleClose }) => {
               const req = {
                 accessToken: data.accessToken,
                 fbId: data.id,
-                role: 'customer',
+                role: 'driver',
               };
               dispatch(facebookAuth(req, history));
             }}
@@ -96,9 +118,9 @@ const LoginDialog = ({ open, handleClose }) => {
   );
 };
 
-LoginDialog.propTypes = {
+SignupDriver.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default LoginDialog;
+export default SignupDriver;
