@@ -82,6 +82,11 @@ const validateEditProfile = validate([
     .isString()
     .matches(/^(\+?212|0)[67]\d{8}$/)
     .withMessage('Invalid phoneNumber'),
+  body('imageUrl').exists().isString().withMessage('Invalid image url'),
+]);
+
+const validatePatchStatus = validate([
+  body('active').exists().isBoolean().withMessage('Invalid status'),
 ]);
 
 const errorFormatter = ({ msg }) => ({ message: msg });
@@ -100,8 +105,8 @@ const throwIfNotValid = (req, res, next) => {
 };
 
 module.exports = {
-  validateCustomerSignUp,
   validateSignUp,
   throwIfNotValid,
   validateEditProfile,
+  validatePatchStatus,
 };

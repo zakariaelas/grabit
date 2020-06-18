@@ -2,12 +2,26 @@ const validate = require('./validate');
 const { body } = require('express-validator');
 
 const validateCreateOrder = validate([
-  body('from').exists().isString().withMessage('Invalid pick up address'),
-  body('destination')
+  body('from.address')
     .exists()
     .isString()
-    .withMessage('Invalid destination address')
-    .trim(),
+    .trim()
+    .withMessage('Invalid pick up address'),
+  body('destination.address')
+    .exists()
+    .isString()
+    .trim()
+    .withMessage('Invalid destination address'),
+  body('from.place_id')
+    .exists()
+    .isString()
+    .trim()
+    .withMessage('Invalid pickup place id'),
+  body('destination.place_id')
+    .exists()
+    .isString()
+    .trim()
+    .withMessage('Invalid destination place id'),
   body('description').optional().isString().withMessage('Invalid description'),
   body('date').exists().isString().withMessage('Invalid date'),
   body('minBudget')
@@ -28,6 +42,12 @@ const validateCreateOrder = validate([
     .toFloat()
     .isFloat({ min: 0 })
     .withMessage('Invalid estimated price'),
+  body('estimatedDistance')
+    .exists()
+    .isNumeric()
+    .toFloat()
+    .isFloat({ min: 0 })
+    .withMessage('Invalid estimated distance'),
   body('estimatedDuration')
     .exists()
     .isNumeric()

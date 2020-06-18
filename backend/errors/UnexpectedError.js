@@ -7,15 +7,6 @@ class UnexpectedError extends Error {
     this.message = message;
     this.statusCode = statusCode;
     console.error(this);
-    //logger.error(this.logError());
-  }
-  logError() {
-    const jsonMessage = {
-      statusCode: this.statusCode,
-      message: `${this.error.name}: ${this.error.message}`,
-      stack: this.error.stack,
-    };
-    return JSON.stringify(jsonMessage);
   }
   serializeError() {
     return { message: this.message, status: this.statusCode };

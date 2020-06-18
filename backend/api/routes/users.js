@@ -1,15 +1,48 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, getUserOrders } = require('../controllers/users');
 const {
-  validateCustomerSignUp,
+  createUser,
+  getUserOrders,
+  editProfile,
+  patchDriverStatus,
+} = require('../controllers/users');
+const {
+  validateEditProfile,
   validateSignUp,
+  validatePatchStatus,
   throwIfNotValid,
 } = require('../validators/users');
 const { sanitizeReqBody } = require('../validators/sanitizers');
-const { loginRequired } = require('../middleware/auth');
+const {
+  loginRequired,
+  ensureCorrectUser,
+  ensureDriver,
+} = require('../middleware/auth');
 
-router.post('/', validateSignUp, sanitizeReqBody, throwIfNotValid, createUser);
+router
+  .route('/')
+  .post(validateSignUp, sanitizeReqBody, throwIfNotValid, createUser);
+
+router
+  .route('/:uid')
+  .put(
+    loginRequired,
+    ensureCorrectUser,
+    validateEditProfile,
+    sanitizeReqBody,
+    editProfile,
+  );
+
+router.patch(
+  '/:uid/active',
+  loginRequired,
+  ensureCorrectUser,
+  ensureDriver,
+  validatePatchStatus,
+  sanitizeReqBody,
+  patchDriverStatus,
+);
+
 router.route('/orders').get(loginRequired, getUserOrders);
 
 module.exports = router;

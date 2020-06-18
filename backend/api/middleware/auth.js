@@ -4,6 +4,7 @@ const { ExtractJwt, Strategy: JwtStrategy } = require('passport-jwt');
 const config = require('../../config/');
 const { CustomError, ForbiddenError } = require('../../errors/');
 const db = require('../../db');
+const ROLES = require('../../enums/roles');
 
 const jwtStrategy = new JwtStrategy(
   {
@@ -48,7 +49,11 @@ module.exports = {
   requireAuthWithPredicate,
   loginRequired: requireAuthWithPredicate({ check: () => true }),
   ensureCorrectUser: requireAuthWithPredicate({
-    check: (user, req) => user._id.toString() === req.params.id,
+    check: (user, req) => user._id.toString() === req.params.uid,
+    message: 'Needs permission !',
+  }),
+  ensureDriver: requireAuthWithPredicate({
+    check: (user) => user.role === ROLES.Driver,
     message: 'Needs permission !',
   }),
 };

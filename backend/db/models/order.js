@@ -22,6 +22,17 @@ const orderItemSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+const addressSchema = new mongoose.Schema({
+  address: {
+    type: String,
+    required: true,
+  },
+  place_id: {
+    type: String,
+    required: true,
+  },
+});
+
 const orderSchema = new mongoose.Schema(
   {
     driver: {
@@ -33,14 +44,8 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    from: {
-      type: String,
-      required: true,
-    },
-    destination: {
-      type: String,
-      required: true,
-    },
+    from: addressSchema,
+    destination: addressSchema,
     description: {
       type: String,
       default: '',
@@ -63,6 +68,10 @@ const orderSchema = new mongoose.Schema(
       default: 0,
     },
     estimatedDuration: {
+      type: Number,
+      default: 0,
+    },
+    estimatedDistance: {
       type: Number,
       default: 0,
     },

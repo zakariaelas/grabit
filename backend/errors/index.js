@@ -4,4 +4,5 @@ module.exports = {
   UnexpectedError: require('./UnexpectedError'),
   RequestValidationError: require('./RequestValidationError'),
   ForbiddenError: require('./ForbiddenError'),
+  NoDriverAvailableError: require('./NoDriverAvailableError'),
 };

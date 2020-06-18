@@ -9,19 +9,8 @@ class RequestValidationError extends CustomError {
   serializeError() {
     return {
       status: this.statusCode,
-      message: this.errors[0],
+      message: this.errors[0].message,
     };
-  }
-  logError() {
-    const errorMessages = this.errors.map((err) => ({
-      message: err.msg,
-      field: err.param,
-    }));
-    const jsonMessage = {
-      statusCode: this.statusCode,
-      message: errorMessages,
-    };
-    return JSON.stringify(jsonMessage);
   }
 }
 
