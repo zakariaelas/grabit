@@ -9,13 +9,13 @@ Use git to clone the grabit repository locally
 with HTTPS:
 
 ```
-git clone https://github.com/CLEDeveloppers/kudos.git
+git clone git@github.com:zakariaelas/grabit.git
 ```
 
 with SSH:
 
 ```
-git clone git@github.com:zakariaelas/kudos.git
+git clone git@github.com:zakariaelas/grabit.git
 ```
 
 Once you change directories to `backend` or `frontend`, you will need to install all dependencies.
