@@ -81,35 +81,31 @@ function App() {
                   path="/new-order"
                   component={Request}
                 />
-                <Route>
-                  <VerticalTabChooser>
-                    <PrivateRoute
-                      icon={<Storefront />}
-                      exact
-                      path="/orders"
-                      component={Orders}
-                      label="My Orders"
-                      withTab
-                    />
-                    <PrivateRoute
-                      icon={<Person />}
-                      exact
-                      path="/profile"
-                      component={Profile}
-                      label="Profile"
-                      withTab
-                    />
-                    <PrivateRoute
-                      icon={<Help />}
-                      exact
-                      path="/faq"
-                      component={FAQ}
-                      label="FAQ"
-                      withTab
-                    />
-                    <Redirect to="/404" />
-                  </VerticalTabChooser>
-                </Route>
+                <PrivateRoute
+                  icon={<Storefront />}
+                  exact
+                  path="/orders"
+                  component={Orders}
+                  label="My Orders"
+                  withTab
+                />
+                <PrivateRoute
+                  icon={<Person />}
+                  exact
+                  path="/profile"
+                  component={Profile}
+                  label="Profile"
+                  withTab
+                />
+                <PrivateRoute
+                  icon={<Help />}
+                  exact
+                  path="/faq"
+                  component={FAQ}
+                  label="FAQ"
+                  withTab
+                />
+                <Redirect to="/404" />
               </AppContainer>
             </Switch>
           </Router>

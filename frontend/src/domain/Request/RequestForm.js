@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import { withFormik, FieldArray, Form } from 'formik';
-import { Grid, Box, makeStyles } from '@material-ui/core';
+import {
+  Grid,
+  Box,
+  makeStyles,
+  FormLabel,
+  Typography,
+} from '@material-ui/core';
 import MuiFormikTextField from '../../components/MuiFormikTextField';
 import CircularProgressButton from '../../components/CircularProgressButton';
 import validationSchema from './requestValidationSchema';
@@ -54,59 +60,6 @@ let RequestForm = ({ values }) => {
   return (
     <Form>
       <Grid container spacing={4} alignItems="baseline">
-        <Grid container spacing={4} item lg={6} sm={12}>
-          <Grid item lg={12}>
-            <MuiFormikTextField
-              fullWidth
-              multiline
-              rows={6}
-              name="description"
-              variant="outlined"
-              label="Description"
-              placeholder="Describe your order"
-            />
-          </Grid>
-          <Grid item lg={12}>
-            <FieldArray name="items" component={ItemsFormik} />
-          </Grid>
-          <Grid item lg={6} md={12}>
-            <MuiFormikTextField
-              fullWidth
-              name="date"
-              variant="outlined"
-              label="Date"
-              type="date"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item lg={6} md={12}>
-            <MuiFormikTextField
-              fullWidth
-              name="schedule"
-              variant="outlined"
-              label="Schedule"
-              placeholder="ASAP"
-            />
-          </Grid>
-          <Grid item lg={6} md={12}>
-            <MuiFormikTextField
-              fullWidth
-              name="minBudget"
-              variant="outlined"
-              label="Minimum Budget"
-            />
-          </Grid>
-          <Grid item lg={6} md={12}>
-            <MuiFormikTextField
-              fullWidth
-              name="maxBudget"
-              variant="outlined"
-              label="Maximum Budget"
-            />
-          </Grid>
-        </Grid>
         <Grid container spacing={3} item lg={6} md={12}>
           <Grid item lg={12} className={classes.fullWidth}>
             <GoogleAddressAutocomplete
@@ -155,6 +108,60 @@ let RequestForm = ({ values }) => {
                 }}
               />
             </Box>
+          </Grid>
+        </Grid>
+        <Grid container spacing={4} item lg={6} sm={12}>
+          <Grid item lg={12}>
+            <FieldArray name="items" component={ItemsFormik} />
+          </Grid>
+
+          <Grid item lg={6} md={12}>
+            <MuiFormikTextField
+              fullWidth
+              name="date"
+              variant="outlined"
+              label="Date"
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item lg={6} md={12}>
+            <MuiFormikTextField
+              fullWidth
+              name="schedule"
+              variant="outlined"
+              label="Schedule"
+              placeholder="ASAP"
+            />
+          </Grid>
+          <Grid item lg={6} md={12}>
+            <MuiFormikTextField
+              fullWidth
+              name="minBudget"
+              variant="outlined"
+              label="Minimum Budget"
+            />
+          </Grid>
+          <Grid item lg={6} md={12}>
+            <MuiFormikTextField
+              fullWidth
+              name="maxBudget"
+              variant="outlined"
+              label="Maximum Budget"
+            />
+          </Grid>
+          <Grid item lg={12}>
+            <MuiFormikTextField
+              fullWidth
+              multiline
+              rows={4}
+              name="description"
+              variant="outlined"
+              label="Description"
+              placeholder="Describe your order (extra directions, order details, etc.)"
+            />
           </Grid>
         </Grid>
         <Grid item lg={12}>

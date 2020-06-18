@@ -3,6 +3,8 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
+  ListItemText,
+  makeStyles,
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -12,7 +14,14 @@ import {
 import { isLoadingDriverStatusSelector } from './DriverStatusReducer';
 import { changeDriverStatus } from './DriverStatusActions';
 
+const useStyles = makeStyles((theme) => ({
+  listItemText: {
+    fontWeight: 500,
+  },
+}));
+
 const DriverStatusSwitch = (props) => {
+  const classes = useStyles();
   const active = useSelector(driverStatusSelector);
   const isLoading = useSelector(isLoadingDriverStatusSelector);
   const uid = useSelector(userIdSelector);
@@ -23,19 +32,21 @@ const DriverStatusSwitch = (props) => {
   };
 
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <Switch
-            color="primary"
-            disabled={isLoading}
-            checked={active}
-            onChange={toggleChecked}
-          />
-        }
-        label={active ? 'Active' : 'Inactive'}
+    <>
+      <Switch
+        color="secondary"
+        disabled={isLoading}
+        checked={active}
+        onChange={toggleChecked}
       />
-    </FormGroup>
+      <ListItemText
+        primary={active ? 'Active' : 'Inactive'}
+        primaryTypographyProps={{
+          variant: 'body2',
+          className: classes.listItemText,
+        }}
+      />
+    </>
   );
 };
 

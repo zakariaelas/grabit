@@ -11,6 +11,12 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
+  Divider,
+  List,
+  ListItem,
+  Drawer,
+  Fab,
 } from '@material-ui/core';
 import { ReactComponent as Logo } from '../assets/logo-red-white-horiz.svg';
 import { Link } from 'react-router-dom';
@@ -20,7 +26,16 @@ import {
   displayNameSelector,
   userRoleSelector,
 } from '../app/authReducer';
-import { ExitToApp, Person, Store } from '@material-ui/icons';
+import {
+  ExitToApp,
+  Person,
+  Store,
+  Mail,
+  Inbox,
+  Storefront,
+  Help,
+  LocalGroceryStore,
+} from '@material-ui/icons';
 import AvatarOrInitials from './AvatarOrInitials';
 import DriverStatusSwitch from '../domain/DriverStatusSwitch/DriverStatusSwitch';
 import { ROLES } from '../constants';
@@ -34,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   logo: {
-    width: '150px',
-    height: 80,
+    width: '115px',
+    height: 50,
     marginRight: theme.spacing(1),
   },
   appbar: {
@@ -51,9 +66,45 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     cursor: 'pointer',
   },
+  root: {
+    display: 'flex',
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    top: 86,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    width: 100,
+    [theme.breakpoints.up('sm')]: {
+      width: '100px',
+    },
+    ...theme.mixins.toolbar,
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+  listItem: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  listItemText: {
+    fontWeight: 500,
+  },
 }));
 
-const Navbar = () => {
+const Navbar = ({ children }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
   const imageUrl = useSelector(userImageSelector);
@@ -69,7 +120,7 @@ const Navbar = () => {
   };
 
   return (
-    <div>
+    <Box display="flex" flexDirection="column">
       <AppBar
         position="static"
         elevation={0}
@@ -81,79 +132,89 @@ const Navbar = () => {
               <Logo className={classes.logo} />
             </Box>
             <div className={classes.title}></div>
-            <Box display="flex" alignItems="center">
-              <Hidden smDown>
-                <Box mr={2}>
-                  <Typography
-                    className={classes.bold}
-                    variant="body1"
-                  >
-                    {displayName}
-                  </Typography>
-                </Box>
-              </Hidden>
-              <AvatarOrInitials
-                onClick={handleClick}
-                displayName={displayName}
-                imageUrl={imageUrl}
-              />
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                getContentAnchorEl={null}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
-              >
-                {role === ROLES.DRIVER && (
-                  <MenuItem>
-                    <DriverStatusSwitch />
-                  </MenuItem>
-                )}
-                <MenuItem
-                  component={Link}
-                  to="/orders"
-                  onClick={handleClose}
-                >
-                  <ListItemIcon className={classes.icon}>
-                    <Store fontSize="small" color="inherit" />
-                  </ListItemIcon>
-                  <ListItemText>My Orders</ListItemText>
-                </MenuItem>
-                <MenuItem
-                  component={Link}
-                  to="/profile"
-                  onClick={handleClose}
-                >
-                  <ListItemIcon className={classes.icon}>
-                    <Person fontSize="small" color="inherit" />
-                  </ListItemIcon>
-                  <ListItemText>Profile</ListItemText>
-                </MenuItem>
-                <MenuItem
-                  component={Link}
-                  to="/logout"
-                  onClick={handleClose}
-                >
-                  <ListItemIcon className={classes.icon}>
-                    <ExitToApp fontSize="small" color="inherit" />
-                  </ListItemIcon>
-                  <ListItemText>Logout</ListItemText>
-                </MenuItem>
-              </Menu>
-            </Box>
+            <IconButton
+              color="inherit"
+              size="medium"
+              to="/logout"
+              component={Link}
+            >
+              <ExitToApp />
+            </IconButton>
           </Container>
         </Toolbar>
       </AppBar>
-    </div>
+      <Box display="flex">
+        <Drawer
+          classes={{ paper: classes.drawer }}
+          variant="permanent"
+          className={classes.drawer}
+        >
+          <List>
+            <ListItem className={classes.listItem}>
+              <DriverStatusSwitch />
+            </ListItem>
+            <Divider />
+            <ListItem className={classes.listItem}>
+              <Fab
+                component={Link}
+                to="/new-order"
+                color="primary"
+                size="medium"
+                aria-label="add"
+              >
+                <LocalGroceryStore />
+              </Fab>
+            </ListItem>
+            <ListItem
+              to="/orders"
+              component={Link}
+              button
+              className={classes.listItem}
+            >
+              <Storefront className={classes.icon} />
+              <ListItemText
+                primary={'My Orders'}
+                primaryTypographyProps={{
+                  variant: 'body2',
+                  className: classes.listItemText,
+                }}
+              />
+            </ListItem>
+            <ListItem
+              to="/profile"
+              component={Link}
+              button
+              className={classes.listItem}
+            >
+              <Person />
+              <ListItemText
+                primary={'Profile'}
+                primaryTypographyProps={{
+                  variant: 'body2',
+                  className: classes.listItemText,
+                }}
+              />
+            </ListItem>
+            <ListItem
+              to="/faq"
+              component={Link}
+              button
+              className={classes.listItem}
+            >
+              <Help className={classes.icon} />
+              <ListItemText
+                primary={'FAQ'}
+                primaryTypographyProps={{
+                  variant: 'body2',
+                  className: classes.listItemText,
+                }}
+              />
+            </ListItem>
+          </List>
+        </Drawer>
+        <main className={classes.content}>{children}</main>
+      </Box>
+    </Box>
   );
 };
 
