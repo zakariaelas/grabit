@@ -2,8 +2,13 @@ import React from 'react';
 import { Paper, Box, Typography } from '@material-ui/core';
 import RequestForm from './RequestForm';
 import moment from 'moment';
+import { dialog, Confirm } from '../../components/ImperativeDialog';
+import GoogleMapsDistanceMatrix from '../../components/GoogleMapsDistanceMatrix';
+import { createOrder } from './RequestActions';
+import { useHistory } from 'react-router-dom';
 
 const Request = (props) => {
+  const history = useHistory();
   return (
     <Paper elevation={0}>
       <Box p={5}>
@@ -26,8 +31,34 @@ const Request = (props) => {
             items: [],
             currentItem: '',
           }}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values) => {
+            const req = {
+              ...values,
+              estimatedDuration: null,
+              estimatedDistance: null,
+              estimatedPrice: 0,
+            };
+            const ok = await dialog(
+              <Confirm title="Order Estimations">
+                <Typography variant="body1">
+                  The information shown below is only an{' '}
+                  <strong>estimation</strong> of the order.
+                </Typography>
+                <GoogleMapsDistanceMatrix
+                  options={{
+                    origins: [values.from.address],
+                    destinations: [values.destination.address],
+                    travelMode: 'DRIVING',
+                  }}
+                  onSuccess={(response, distance, duration) => {
+                    req.estimatedDistance = distance.value;
+                    req.estimatedDuration = duration.value;
+                    console.log(response, distance, duration);
+                  }}
+                />
+              </Confirm>,
+            );
+            if (ok) await createOrder(req, history);
           }}
         />
       </Box>

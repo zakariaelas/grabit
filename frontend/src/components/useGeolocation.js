@@ -19,6 +19,8 @@ const defaultPositon = {
   error: null,
 };
 
+// Custom hook used to get the Geolocation of a user.
+
 const useGeolocation = (options = {}) => {
   const [position, setPosition] = useState(defaultPositon);
 

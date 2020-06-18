@@ -1,27 +1,23 @@
 import apiprefix from '../../utils/apiprefix';
 import { apiCall } from '../../utils/api';
 import {
-  AUTH_USER_REQUEST,
-  AUTH_USER_SUCCESS,
-  AUTH_USER_FAILURE,
+  FETCH_ORDERS_REQUEST,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDERS_FAILURE,
 } from '../../app/actionTypes';
-import snackbar from '../../components/Snackbar';
 
-export function register(user, history) {
+export function fetchOrders() {
   return async function (dispatch) {
-    dispatch({ type: AUTH_USER_REQUEST });
+    dispatch({ type: FETCH_ORDERS_REQUEST });
     try {
       const request = await apiCall({
-        method: 'POST',
-        url: `${apiprefix}/users`,
-        data: user,
+        method: 'GET',
+        url: `${apiprefix}/users/orders/`,
       });
-      localStorage.token = request.data.token;
       dispatch({
-        type: AUTH_USER_SUCCESS,
+        type: FETCH_ORDERS_SUCCESS,
         payload: request.data,
       });
-      history.push('/home');
     } catch (err) {
       const error = err.response
         ? err.response.data.error
@@ -31,10 +27,9 @@ export function register(user, history) {
             },
           };
       dispatch({
-        type: AUTH_USER_FAILURE,
+        type: FETCH_ORDERS_FAILURE,
         payload: error,
       });
-      snackbar.error(error.message);
     }
   };
 }

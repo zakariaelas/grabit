@@ -1,11 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
   makeStyles,
   Container,
   Box,
-  Avatar,
   Typography,
   Hidden,
   Menu,
@@ -16,8 +15,15 @@ import {
 import { ReactComponent as Logo } from '../assets/logo-red-white-horiz.svg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { currentUserSelector } from '../app/authReducer';
-import { ExitToApp, Person } from '@material-ui/icons';
+import {
+  userImageSelector,
+  displayNameSelector,
+  userRoleSelector,
+} from '../app/authReducer';
+import { ExitToApp, Person, Store } from '@material-ui/icons';
+import AvatarOrInitials from './AvatarOrInitials';
+import DriverStatusSwitch from '../domain/DriverStatusSwitch/DriverStatusSwitch';
+import { ROLES } from '../constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +56,9 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
-  const currentUser = useSelector(currentUserSelector);
+  const imageUrl = useSelector(userImageSelector);
+  const displayName = useSelector(displayNameSelector);
+  const role = useSelector(userRoleSelector);
 
   const handleClick = (ev) => {
     setAnchorEl(ev.currentTarget);
@@ -59,27 +67,6 @@ const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const avatar = useMemo(
-    () =>
-      currentUser.imageUrl ? (
-        <Avatar
-          className={classes.avatar}
-          alt={currentUser.displayName}
-          src={currentUser.imageUrl}
-          onClick={handleClick}
-        />
-      ) : (
-        <Avatar className={classes.avatar} onClick={handleClick}>
-          {currentUser.displayName
-            .split(' ')
-            .slice(0, 2)
-            .map((word) => word.charAt(0).toUpperCase())
-            .join('')}
-        </Avatar>
-      ),
-    [currentUser],
-  );
 
   return (
     <div>
@@ -101,11 +88,15 @@ const Navbar = () => {
                     className={classes.bold}
                     variant="body1"
                   >
-                    {currentUser.displayName}
+                    {displayName}
                   </Typography>
                 </Box>
               </Hidden>
-              {avatar}
+              <AvatarOrInitials
+                onClick={handleClick}
+                displayName={displayName}
+                imageUrl={imageUrl}
+              />
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -122,6 +113,21 @@ const Navbar = () => {
                   horizontal: 'center',
                 }}
               >
+                {role === ROLES.DRIVER && (
+                  <MenuItem>
+                    <DriverStatusSwitch />
+                  </MenuItem>
+                )}
+                <MenuItem
+                  component={Link}
+                  to="/orders"
+                  onClick={handleClose}
+                >
+                  <ListItemIcon className={classes.icon}>
+                    <Store fontSize="small" color="inherit" />
+                  </ListItemIcon>
+                  <ListItemText>My Orders</ListItemText>
+                </MenuItem>
                 <MenuItem
                   component={Link}
                   to="/profile"

@@ -7,21 +7,21 @@ import {
 } from '../../app/actionTypes';
 import snackbar from '../../components/Snackbar';
 
-export function register(user, history) {
+export function editProfile(uid, profile, history) {
   return async function (dispatch) {
     dispatch({ type: AUTH_USER_REQUEST });
     try {
       const request = await apiCall({
-        method: 'POST',
-        url: `${apiprefix}/users`,
-        data: user,
+        method: 'PUT',
+        url: `${apiprefix}/users/${uid}`,
+        data: profile,
       });
       localStorage.token = request.data.token;
       dispatch({
         type: AUTH_USER_SUCCESS,
         payload: request.data,
       });
-      history.push('/home');
+      snackbar.success('Profile updated');
     } catch (err) {
       const error = err.response
         ? err.response.data.error

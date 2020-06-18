@@ -7,7 +7,6 @@ import {
   Hidden,
   IconButton,
 } from '@material-ui/core';
-import FacebookLogin from 'react-facebook-login';
 import { ReactComponent as LogoShape } from '../../../assets/shape.svg';
 import { ArrowBack } from '@material-ui/icons';
 import SignupDriverForm from './SignupDriverForm';

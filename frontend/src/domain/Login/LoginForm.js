@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, withFormik } from 'formik';
 import MuiFormikTextField from '../../components/MuiFormikTextField';
 import * as yup from 'yup';
-import { Button, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import CircularProgressButton from '../../components/CircularProgressButton';
 
 const LoginForm = ({ isLoading }) => {

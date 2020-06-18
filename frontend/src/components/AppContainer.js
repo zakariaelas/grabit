@@ -9,9 +9,9 @@ const AppContainer = ({ children }) => {
     <>
       <Navbar />
       <Box mt={8}>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Switch>{children}</Switch>
-          <Footer position="absolute" mb={4} mt={4} />
+          <Footer mb={4} mt={4} />
         </Container>
       </Box>
     </>

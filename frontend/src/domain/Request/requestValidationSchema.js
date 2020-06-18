@@ -1,15 +1,26 @@
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
-  // from: yup
-  //   .string()
-  //   .trim()
-  //   .nullable()
-  //   .required('You must enter a valid pick up address'),
-  // destination: yup
-  //   .string()
-  //   .nullable()
-  //   .required('You must enter a valid destination address'),
+  from: yup
+    .object()
+    .shape({
+      address: yup
+        .string()
+        .required('You must enter a valid pick up address'),
+      place_id: yup.string().required(),
+    })
+    .nullable()
+    .required('Invalid pick up address'),
+  destination: yup
+    .object()
+    .shape({
+      address: yup
+        .string()
+        .required('You must enter a valid destination address'),
+      place_id: yup.string().required(),
+    })
+    .nullable()
+    .required('Invalid destination address'),
   description: yup.string().nullable(),
   minBudget: yup
     .number()

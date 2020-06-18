@@ -94,7 +94,8 @@ const validationSchema = yup.object().shape({
   phoneNumber: yup
     .string()
     .trim()
-    .matches(/^(\+?212|0)[67]\d{8}$/, 'Invalid phone number'),
+    .matches(/^(\+?212|0)[67]\d{8}$/, 'Invalid phone number')
+    .required('You must enter a phone number'),
   password: yup
     .string()
     .min(8, 'Password must be at least 8 characters')
@@ -109,7 +110,7 @@ const validationSchema = yup.object().shape({
 
 const formikOptions = {
   mapPropsToValues: ({ initialValues }) => ({ ...initialValues }),
-  displayName: 'SignupCustomerForm',
+  displayName: 'SignupDriverForm',
   enableReinitialize: true,
   handleSubmit: (values, { setSubmitting, props }) => {
     values = validationSchema.cast(values);

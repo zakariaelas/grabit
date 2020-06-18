@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { currentUserSelector } from '../app/authReducer';
-import { Route } from 'react-router-dom';
-import NotFound from './NotFound';
+import { Route, Redirect } from 'react-router-dom';
 
 // Component that wraps react-router's Route component
 // The component makes a "decision" whether to render a component or not ...
@@ -17,15 +16,17 @@ const PrivateRoute = ({ component: Component, role, ...props }) => {
       render={(routeProps) => {
         if (
           currentUser &&
-          currentUser.isAuthenticated === true &&
+          currentUser.isAuthenticated &&
           (!role ||
             (typeof role === 'string' && role === currentUser.role))
         ) {
           return (
             <Component currentUser={currentUser} {...routeProps} />
           );
+        } else if (!currentUser || !currentUser.isAuthenticated) {
+          return <Redirect to="/404" />;
         } else {
-          return <NotFound />;
+          return <Redirect to="/404" />;
         }
       }}
     />

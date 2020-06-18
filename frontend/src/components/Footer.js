@@ -13,10 +13,10 @@ const Footer = (props) => {
   const classes = useStyles();
   return (
     <Box display="flex" {...props}>
-      <Box mr={2}>
+      <Box mr={1}>
         <Typography variant="body1">© 2020 Grabit</Typography>
       </Box>
-      <Box mr={2}>
+      <Box mr={1}>
         <Typography
           className={classes.link}
           component={Link}
@@ -45,4 +45,4 @@ Footer.whyDidYouRender = {
   customName: 'Footer',
 };
 
-export default Footer;
+export default React.memo(Footer);

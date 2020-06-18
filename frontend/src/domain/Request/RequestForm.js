@@ -1,32 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { withFormik, FieldArray, Form } from 'formik';
-import {
-  Grid,
-  Box,
-  InputAdornment,
-  IconButton,
-  List,
-  ListItemText,
-  ListItem,
-  ListItemIcon,
-  Typography,
-} from '@material-ui/core';
+import { Grid, Box, makeStyles } from '@material-ui/core';
 import MuiFormikTextField from '../../components/MuiFormikTextField';
-import {
-  Add,
-  RemoveCircle,
-  DesktopWindows,
-  PhotoSizeSelectLargeRounded,
-} from '@material-ui/icons';
 import CircularProgressButton from '../../components/CircularProgressButton';
 import validationSchema from './requestValidationSchema';
 import GoogleMapReact from 'google-map-react';
 import useGeolocation from '../../components/useGeolocation';
 import GoogleAddressAutocomplete from '../../components/GoogleAddressAutocomplete';
+import ItemsFormik from './ItemsFormik';
 
-const HomeTooltip = () => <Typography variant="h5">🏠</Typography>;
-
-const BikeTooltip = () => <Typography variant="h5">🏍️</Typography>;
+const useStyles = makeStyles((theme) => ({
+  fullWidth: {
+    width: '100%',
+  },
+}));
 
 const directionsService = { current: null };
 const directionsRenderer = { current: null };
@@ -36,35 +23,23 @@ let RequestForm = ({ values }) => {
     enableHighAccuracy: true,
   });
 
-  const [loaded, setLoaded] = useState(false);
-  const mapRef = useRef(null);
+  const classes = useStyles();
 
   useEffect(() => {
     if (
-      !directionsRenderer.current &&
-      !directionsService.current &&
-      window.google
-    ) {
-      console.log('here bro');
-      directionsService.current = new window.google.maps.DirectionsService();
-      directionsRenderer.current = new window.google.maps.DirectionsRenderer();
-      directionsRenderer.current.setMap(mapRef.current.map_);
-    }
-    if (
       values.from &&
       values.destination &&
-      values.from.description &&
-      values.destination.description
+      values.from.address &&
+      values.destination.address
     ) {
       directionsService.current.route(
         {
-          origin: values.from.description,
-          destination: values.destination.description,
+          origin: values.from.address,
+          destination: values.destination.address,
           travelMode: 'DRIVING',
         },
         function (response, status) {
           if (status === 'OK') {
-            console.log('response', response);
             directionsRenderer.current.setDirections(response);
           } else {
             window.alert(
@@ -74,17 +49,17 @@ let RequestForm = ({ values }) => {
         },
       );
     }
-  }, [loaded, values.from, values.destination]);
+  }, [values.from, values.destination]);
 
   return (
     <Form>
-      <Grid container spacing={3}>
-        <Grid container spacing={3} item lg={6} sm={12}>
+      <Grid container spacing={4} alignItems="baseline">
+        <Grid container spacing={4} item lg={6} sm={12}>
           <Grid item lg={12}>
             <MuiFormikTextField
               fullWidth
               multiline
-              rows={4}
+              rows={6}
               name="description"
               variant="outlined"
               label="Description"
@@ -132,8 +107,8 @@ let RequestForm = ({ values }) => {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={3} item lg={6} sm={12}>
-          <Grid item lg={12}>
+        <Grid container spacing={3} item lg={6} md={12}>
+          <Grid item lg={12} className={classes.fullWidth}>
             <GoogleAddressAutocomplete
               variant="outlined"
               fullWidth
@@ -142,7 +117,7 @@ let RequestForm = ({ values }) => {
               placeholder="Pickup address"
             />
           </Grid>
-          <Grid item lg={12}>
+          <Grid item lg={12} className={classes.fullWidth}>
             <GoogleAddressAutocomplete
               variant="outlined"
               fullWidth
@@ -151,22 +126,20 @@ let RequestForm = ({ values }) => {
               placeholder="Destination address"
             />
           </Grid>
-          <Grid item lg={12}>
+          <Grid item lg={12} className={classes.fullWidth}>
             <Box height={500} width={'100%'}>
               <GoogleMapReact
                 bootstrapURLKeys={{
                   key: process.env.REACT_APP_MAPS_KEY,
                   libraries: 'places',
                 }}
-                ref={mapRef}
-                defaultCenter={{
-                  lat: latitude,
-                  lng: longitude,
+                center={{
+                  lat: 33.589886 || latitude,
+                  lng: -7.603869 || longitude,
                 }}
                 yesIWantToUseGoogleMapApiInternals
-                defaultZoom={13}
+                defaultZoom={14}
                 onGoogleApiLoaded={({ map, maps }) => {
-                  //setLoaded(true);
                   directionsService.current = new window.google.maps.DirectionsService();
                   directionsRenderer.current = new window.google.maps.DirectionsRenderer();
                   directionsRenderer.current.setMap(map);
@@ -180,10 +153,7 @@ let RequestForm = ({ values }) => {
                     ],
                   });
                 }}
-              >
-                <HomeTooltip lat={latitude} lng={longitude} />
-                <BikeTooltip lat={33.9954189} lng={-6.8500229} />
-              </GoogleMapReact>
+              />
             </Box>
           </Grid>
         </Grid>
@@ -201,59 +171,6 @@ let RequestForm = ({ values }) => {
     </Form>
   );
 };
-
-const ItemsFormik = ({ push, remove, form }) => {
-  const { values, setFieldValue } = form;
-  console.log(form);
-  return (
-    <>
-      <MuiFormikTextField
-        variant="outlined"
-        label="Order Item"
-        name="currentItem"
-        placeholder="Enter an item"
-        fullWidth
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                size="small"
-                onClick={() => {
-                  if (values.currentItem === '') return;
-                  setFieldValue('currentItem', '');
-                  push({ text: values.currentItem });
-                }}
-              >
-                <Add color="secondary" />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Box>
-        <List>
-          {values.items.map((value, index) => (
-            <ListItem key={index}>
-              <ListItemIcon style={{ minWidth: '38px' }}>
-                <IconButton
-                  size="small"
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => remove(index)}
-                >
-                  <RemoveCircle color="primary" fontSize="small" />
-                </IconButton>
-              </ListItemIcon>
-              <ListItemText primary={value.text} />
-            </ListItem>
-          ))}
-        </List>
-      </Box>
-    </>
-  );
-};
-
-ItemsFormik.whyDidYouRender = true;
 
 const formikOptions = {
   mapPropsToValues: ({ initialValues }) => ({ ...initialValues }),

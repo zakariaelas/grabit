@@ -2,6 +2,7 @@ import {
   AUTH_USER_REQUEST,
   AUTH_USER_SUCCESS,
   AUTH_USER_FAILURE,
+  CHANGE_DRIVER_STATUS_SUCCESS,
 } from './actionTypes';
 import jwtDecode from 'jwt-decode';
 
@@ -48,6 +49,14 @@ export const auth = (state = initialState, action) => {
         isLoading: false,
         error: action.payload,
       };
+    case CHANGE_DRIVER_STATUS_SUCCESS:
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          ...action.payload,
+        },
+      };
     default:
       return state;
   }
@@ -56,3 +65,12 @@ export const auth = (state = initialState, action) => {
 export const authSelector = (state) => state.auth;
 export const currentUserSelector = (state) => state.auth.currentUser;
 export const isLoadingAuthSelector = (state) => state.auth.isLoading;
+export const userImageSelector = (state) =>
+  state.auth.currentUser.imageUrl;
+export const displayNameSelector = (state) =>
+  state.auth.currentUser.displayName;
+export const driverStatusSelector = (state) =>
+  state.auth.currentUser.active;
+export const userIdSelector = (state) => state.auth.currentUser.id;
+export const userRoleSelector = (state) =>
+  state.auth.currentUser.role;
