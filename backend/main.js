@@ -1,10 +1,13 @@
 const api = require('./api');
+const socketIOManager = require('./realtime/');
 const config = require('./config');
 const logger = require('./utils/logger');
 
-// later on, this will be useful when we add socket.io
-// because socket.io needs a server instance to "attach" itself into.
 const server = require('http').Server(api);
+
+socketIOManager.initializeSocketIO(server);
+
+require('./realtime/redis-broadcaster');
 
 server.listen(config.port, function () {
   logger.info(`Server is starting on port ${config.port}`);
