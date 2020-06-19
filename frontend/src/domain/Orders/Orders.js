@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Typography, Divider, Hidden } from '@material-ui/core';
 import BoldButton from '../../components/BoldButton';
-import { Add } from '@material-ui/icons';
+import { Add, LocalGroceryStore } from '@material-ui/icons';
 import FixedFab from '../../components/FixedFab';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import {
 } from './OrdersReducer';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import OrdersList from './OrdersList';
+import ShadowPaper from '../../components/ShadowPaper';
 
 //const useStyles = makeStyles((theme) => ({}));
 
@@ -58,7 +59,7 @@ const Orders = (props) => {
           color="primary"
           aria-label="add"
         >
-          <Add />
+          <LocalGroceryStore />
         </FixedFab>
       </Hidden>
     </Box>

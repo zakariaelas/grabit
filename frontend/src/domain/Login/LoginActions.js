@@ -53,7 +53,7 @@ export function facebookAuth(credentials, history) {
         type: AUTH_USER_SUCCESS,
         payload: request.data,
       });
-      history.push('/home');
+      history.push('/orders');
     } catch (err) {
       const error = err.response
         ? err.response.data.error

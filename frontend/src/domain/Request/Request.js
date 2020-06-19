@@ -27,7 +27,7 @@ const Request = (props) => {
             minBudget: 0,
             maxBudget: 0,
             date: moment().format('YYYY-MM-DD'),
-            schedule: '',
+            schedule: 'ASAP',
             items: [],
             currentItem: '',
           }}

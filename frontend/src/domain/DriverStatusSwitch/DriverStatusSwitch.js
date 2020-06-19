@@ -3,8 +3,8 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
-  ListItemText,
   makeStyles,
+  ListItemText,
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DriverStatusSwitch = (props) => {
+const DriverStatusSwitch = ({ variant = 'block', ...props }) => {
   const classes = useStyles();
   const active = useSelector(driverStatusSelector);
   const isLoading = useSelector(isLoadingDriverStatusSelector);
@@ -31,23 +31,42 @@ const DriverStatusSwitch = (props) => {
     dispatch(changeDriverStatus(uid, !active));
   };
 
-  return (
-    <>
-      <Switch
-        color="secondary"
-        disabled={isLoading}
-        checked={active}
-        onChange={toggleChecked}
-      />
-      <ListItemText
-        primary={active ? 'Active' : 'Inactive'}
-        primaryTypographyProps={{
-          variant: 'body2',
-          className: classes.listItemText,
-        }}
-      />
-    </>
+  let component;
+  const mySwitch = (
+    <Switch
+      {...props}
+      disabled={isLoading}
+      checked={active}
+      onChange={toggleChecked}
+    />
   );
+
+  switch (variant) {
+    case 'inline':
+      component = (
+        <FormGroup>
+          <FormControlLabel
+            control={mySwitch}
+            label={active ? 'Active' : 'Inactive'}
+          />
+        </FormGroup>
+      );
+    case 'block':
+      component = (
+        <>
+          {mySwitch}
+          <ListItemText
+            primary={active ? 'Active' : 'Inactive'}
+            primaryTypographyProps={{
+              variant: 'body1',
+              className: classes.listItemText,
+            }}
+          />
+        </>
+      );
+  }
+
+  return component;
 };
 
 export default DriverStatusSwitch;

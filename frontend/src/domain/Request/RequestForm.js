@@ -6,8 +6,11 @@ import {
   makeStyles,
   FormLabel,
   Typography,
+  FormControlLabel,
+  MenuItem,
 } from '@material-ui/core';
 import MuiFormikTextField from '../../components/MuiFormikTextField';
+import MuiFormikSelect from '../../components/MuiFormikSelect';
 import CircularProgressButton from '../../components/CircularProgressButton';
 import validationSchema from './requestValidationSchema';
 import GoogleMapReact from 'google-map-react';
@@ -18,6 +21,9 @@ import ItemsFormik from './ItemsFormik';
 const useStyles = makeStyles((theme) => ({
   fullWidth: {
     width: '100%',
+  },
+  paddingBottom0: {
+    paddingBottom: '0 !important',
   },
 }));
 
@@ -111,10 +117,19 @@ let RequestForm = ({ values }) => {
           </Grid>
         </Grid>
         <Grid container spacing={4} item lg={6} sm={12}>
+          <Grid item lg={12} className={classes.paddingBottom0}>
+            <Typography variant="body1" color="textSecondary">
+              Tell us what you want
+            </Typography>
+          </Grid>
           <Grid item lg={12}>
             <FieldArray name="items" component={ItemsFormik} />
           </Grid>
-
+          <Grid item lg={12} className={classes.paddingBottom0}>
+            <Typography variant="body1" color="textSecondary">
+              Make a scheduled delivery
+            </Typography>
+          </Grid>
           <Grid item lg={6} md={12}>
             <MuiFormikTextField
               fullWidth
@@ -128,13 +143,25 @@ let RequestForm = ({ values }) => {
             />
           </Grid>
           <Grid item lg={6} md={12}>
-            <MuiFormikTextField
+            <MuiFormikSelect
               fullWidth
               name="schedule"
               variant="outlined"
-              label="Schedule"
-              placeholder="ASAP"
-            />
+              label="Time"
+            >
+              <MenuItem value="ASAP">ASAP</MenuItem>
+              <MenuItem value={'10:00'}>10:00 AM</MenuItem>
+              <MenuItem value={'10:30'}>10:30 AM</MenuItem>
+              <MenuItem value={'11:00'}>11:00 AM</MenuItem>
+              <MenuItem value={'11:30'}>11:30 AM</MenuItem>
+              <MenuItem value={'14:00'}>02:00 PM</MenuItem>
+              <MenuItem value={'14:30'}>02:30 PM</MenuItem>
+              <MenuItem value={'15:00'}>03:00 PM</MenuItem>
+              <MenuItem value={'15:30'}>03:30 PM</MenuItem>
+              <MenuItem value={'18:00'}>06:00 PM</MenuItem>
+              <MenuItem value={'18:30'}>06:30 PM</MenuItem>
+              <MenuItem value={'19:00'}>07:00 PM</MenuItem>
+            </MuiFormikSelect>
           </Grid>
           <Grid item lg={6} md={12}>
             <MuiFormikTextField
@@ -151,6 +178,11 @@ let RequestForm = ({ values }) => {
               variant="outlined"
               label="Maximum Budget"
             />
+          </Grid>
+          <Grid item lg={12} className={classes.paddingBottom0}>
+            <Typography variant="body1" color="textSecondary">
+              You can use this field to further describe your order
+            </Typography>
           </Grid>
           <Grid item lg={12}>
             <MuiFormikTextField

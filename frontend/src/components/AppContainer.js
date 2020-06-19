@@ -8,12 +8,8 @@ const AppContainer = ({ children }) => {
   return (
     <>
       <Navbar>
-        <Box mt={8}>
-          <Container maxWidth="lg">
-            <Switch>{children}</Switch>
-            <Footer mb={4} mt={4} />
-          </Container>
-        </Box>
+        <Switch>{children}</Switch>
+        <Footer mb={4} mt={4} />
       </Navbar>
     </>
   );
