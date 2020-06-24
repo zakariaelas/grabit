@@ -14,4 +14,7 @@ module.exports = {
     appID: process.env.FB_APP_ID,
     secret: process.env.FB_SECRET,
   },
+  google: {
+    secret: process.env.MAPS_SECRET,
+  },
 };

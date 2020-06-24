@@ -1,5 +1,6 @@
 const validate = require('./validate');
 const { body } = require('express-validator');
+const ORDER_STATUS = require('../../enums/orderStatus');
 
 const validateCreateOrder = validate([
   body('from.address')
@@ -59,6 +60,20 @@ const validateCreateOrder = validate([
   body('items.*').customSanitizer((value) => ({ text: value.text })),
 ]);
 
+const validatePatchStatus = validate([
+  body('status')
+    .exists()
+    .isString()
+    .isIn([ORDER_STATUS.Picked, ORDER_STATUS.Delivered]),
+]);
+
+const validateGetOptimizedRoute = validate([
+  body('position.lat').exists().isNumeric().withMessage('Invalid lat'),
+  body('position.lng').exists().isNumeric().withMessage('Invalid lng'),
+]);
+
 module.exports = {
   validateCreateOrder,
+  validatePatchStatus,
+  validateGetOptimizedRoute,
 };

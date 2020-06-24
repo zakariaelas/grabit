@@ -42,9 +42,20 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    position: {
+      type: {
+        type: String,
+        enum: ['Point'],
+      },
+      coordinates: {
+        type: [Number],
+      },
+    },
   },
   { timestamps: true },
 );
+
+userSchema.index({ position: '2dsphere' });
 
 userSchema.pre('save', async function (next) {
   try {

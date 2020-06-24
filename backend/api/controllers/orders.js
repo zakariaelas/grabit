@@ -21,7 +21,30 @@ const getOrder = async (req, res, next) => {
   }
 };
 
+const patchOrderStatus = async (req, res, next) => {
+  try {
+    const { oid } = req.params;
+    const { status } = req.body;
+    const order = await orderService.changeOrderStatus(oid, status);
+    return res.json({ order });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getOptimizedRoute = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const route = await orderService.getOptimizedRoute(id);
+    return res.json({ route });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createOrder,
   getOrder,
+  patchOrderStatus,
+  getOptimizedRoute,
 };
