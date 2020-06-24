@@ -63,7 +63,7 @@ const getOptimizedRoute = async (id) => {
   const { coordinates } = await getPosition(id);
   const orders = await db.Order.find({
     driver: id,
-    date: moment().subtract(1, 'day').startOf('day').toDate(),
+    date: moment().subtract(2, 'day').startOf('day').toDate(),
     status: ORDER_STATUS.Pending,
   });
   if (orders.length === 0) return orders;

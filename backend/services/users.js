@@ -38,7 +38,7 @@ const findFbIdOrCreateUser = async (data) => {
 
 const getUserOrders = async (id) => {
   const user = await db.User.findOne({ _id: id })
-    .populate('orders')
+    .populate({ path: 'orders', options: { sort: { createdAt: -1 } } })
     .select('orders');
   return user.orders;
 };
