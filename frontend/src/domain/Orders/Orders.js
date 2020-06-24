@@ -1,34 +1,49 @@
-import React, { useEffect } from 'react';
-import { Box, Typography, Divider, Hidden } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Typography,
+  Divider,
+  Hidden,
+  Tabs,
+  Tab,
+  Paper,
+} from '@material-ui/core';
 import BoldButton from '../../components/BoldButton';
-import { Add, LocalGroceryStore } from '@material-ui/icons';
+import { LocalGroceryStore } from '@material-ui/icons';
 import FixedFab from '../../components/FixedFab';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrders } from './OrdersActions';
 import {
-  ordersSelector,
   isLoadingOrdersSelector,
+  activeOrdersSelector,
+  deliveredOrdersSelector,
 } from './OrdersReducer';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import OrdersList from './OrdersList';
-import ShadowPaper from '../../components/ShadowPaper';
+import TabPanel from '../../components/TabPanel';
 
 //const useStyles = makeStyles((theme) => ({}));
 
 const Orders = (props) => {
-  const orders = useSelector(ordersSelector);
+  const activeOrders = useSelector(activeOrdersSelector);
+  const deliveredOrders = useSelector(deliveredOrdersSelector);
   const isLoading = useSelector(isLoadingOrdersSelector);
   const dispatch = useDispatch();
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <Box px={2}>
       <Box display="flex" alignItems="center" flexWrap="wrap">
-        <Typography variant="h5">My Orders</Typography>
+        <Typography variant="h4">My Orders</Typography>
         <Box flexGrow="10" mb={6}></Box>
         <Hidden smDown>
           <BoldButton
@@ -45,11 +60,31 @@ const Orders = (props) => {
         <Divider variant="fullWidth" />
       </Box>
       <Box>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <OrdersList orders={orders} />
-        )}
+        <Paper square>
+          <Tabs
+            variant="fullWidth"
+            value={value}
+            indicatorColor="secondary"
+            onChange={handleChange}
+          >
+            <Tab label="Active" />
+            <Tab label="Delivered" />
+          </Tabs>
+        </Paper>
+        <Box>
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <TabPanel value={value} index={0}>
+                <OrdersList orders={activeOrders} />
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                <OrdersList orders={deliveredOrders} />
+              </TabPanel>
+            </>
+          )}
+        </Box>
       </Box>
       <Hidden smUp>
         <FixedFab

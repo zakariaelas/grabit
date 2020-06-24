@@ -25,11 +25,9 @@ export function changeDriverStatus(uid, status) {
       });
     } catch (err) {
       const error = err.response
-        ? err.response.data
+        ? err.response.data.error
         : {
-            error: {
-              message: 'An error occurred, please try again later !',
-            },
+            message: 'An error occurred, please try again later !',
           };
       dispatch({
         type: CHANGE_DRIVER_STATUS_FAILURE,

@@ -51,6 +51,7 @@ const DriverStatusSwitch = ({ variant = 'block', ...props }) => {
           />
         </FormGroup>
       );
+      break;
     case 'block':
       component = (
         <>
@@ -64,6 +65,9 @@ const DriverStatusSwitch = ({ variant = 'block', ...props }) => {
           />
         </>
       );
+      break;
+    default:
+      component = <></>;
   }
 
   return component;

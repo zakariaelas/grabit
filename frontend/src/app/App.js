@@ -18,13 +18,12 @@ import { Provider } from 'react-redux';
 import Home from '../domain/Home/Home';
 import PrivateRoute from '../components/PrivateRoute';
 import NotFound from '../components/NotFound';
-import AppContainer from '../components/AppContainer';
+import AppContainer from '../domain/AppContainer/AppContainer';
 import Request from '../domain/Request/Request';
 import Profile from '../domain/Profile/Profile';
-import VerticalTabChooser from '../components/VerticalTabChooser';
 import FAQ from '../domain/FAQ/FAQ';
-import { Person, Help, Storefront } from '@material-ui/icons';
 import Orders from '../domain/Orders/Orders';
+import DriverNavigation from '../domain/DriverNavigation/DriverNavigation';
 
 let theme = createMuiTheme({
   palette: {
@@ -65,7 +64,6 @@ function App() {
           <Router basename={process.env.PUBLIC_URL}>
             <Switch>
               <Route exact path="/" component={LandingPage} />
-              <Route path="/404" component={NotFound} />
               <Route
                 exact
                 path="/logout"
@@ -82,30 +80,29 @@ function App() {
                   component={Request}
                 />
                 <PrivateRoute
-                  icon={<Storefront />}
                   exact
                   path="/orders"
                   component={Orders}
                   label="My Orders"
-                  withTab
                 />
                 <PrivateRoute
-                  icon={<Person />}
+                  exact
+                  path="/navigation"
+                  component={DriverNavigation}
+                  label="Routes"
+                />
+                <PrivateRoute
                   exact
                   path="/profile"
                   component={Profile}
                   label="Profile"
-                  withTab
                 />
                 <PrivateRoute
-                  icon={<Help />}
                   exact
                   path="/faq"
                   component={FAQ}
                   label="FAQ"
-                  withTab
                 />
-                <Redirect to="/404" />
               </AppContainer>
             </Switch>
           </Router>

@@ -26,9 +26,7 @@ export function editProfile(uid, profile, history) {
       const error = err.response
         ? err.response.data.error
         : {
-            error: {
-              message: 'An error occurred, please try again later !',
-            },
+            message: 'An error occurred, please try again later !',
           };
       dispatch({
         type: AUTH_USER_FAILURE,

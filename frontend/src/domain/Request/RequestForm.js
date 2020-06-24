@@ -4,9 +4,7 @@ import {
   Grid,
   Box,
   makeStyles,
-  FormLabel,
   Typography,
-  FormControlLabel,
   MenuItem,
 } from '@material-ui/core';
 import MuiFormikTextField from '../../components/MuiFormikTextField';
